@@ -1,4 +1,5 @@
 """Base schema for callback managers."""
+
 import uuid
 from dataclasses import dataclass
 from datetime import datetime
@@ -31,6 +32,7 @@ class CBEventType(str, Enum):
     NODE_PARSING = "node_parsing"
     EMBEDDING = "embedding"
     LLM = "llm"
+    LLM_RESPONSE_DELTA = "llm_response_delta"
     QUERY = "query"
     RETRIEVE = "retrieve"
     SYNTHESIZE = "synthesize"

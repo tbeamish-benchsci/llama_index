@@ -1,13 +1,6 @@
 import asyncio
 from contextlib import contextmanager
-from typing import (
-    Any,
-    AsyncGenerator,
-    Callable,
-    Generator,
-    Sequence,
-    cast,
-)
+from typing import Any, AsyncGenerator, Callable, Generator, Sequence, cast
 
 from llama_index.core.base.llms.types import (
     ChatMessage,
@@ -53,7 +46,21 @@ def llm_chat_callback() -> Callable:
                     async def wrapped_gen() -> ChatResponseAsyncGen:
                         last_response = None
                         async for x in f_return_val:
-                            yield cast(ChatResponse, x)
+                            chat_response = cast(ChatResponse, x)
+                            chat_response_event_id = callback_manager.on_event_start(
+                                CBEventType.LLM_RESPONSE_DELTA,
+                                payload={
+                                    EventPayload.RESPONSE: chat_response,
+                                },
+                            )
+                            callback_manager.on_event_end(
+                                CBEventType.LLM_RESPONSE_DELTA,
+                                payload={
+                                    EventPayload.RESPONSE: chat_response,
+                                },
+                                event_id=chat_response_event_id,
+                            )
+                            yield chat_response
                             last_response = x
 
                         callback_manager.on_event_end(
@@ -97,7 +104,21 @@ def llm_chat_callback() -> Callable:
                     def wrapped_gen() -> ChatResponseGen:
                         last_response = None
                         for x in f_return_val:
-                            yield cast(ChatResponse, x)
+                            chat_response = cast(ChatResponse, x)
+                            chat_response_event_id = callback_manager.on_event_start(
+                                CBEventType.LLM_RESPONSE_DELTA,
+                                payload={
+                                    EventPayload.RESPONSE: chat_response,
+                                },
+                            )
+                            callback_manager.on_event_end(
+                                CBEventType.LLM_RESPONSE_DELTA,
+                                payload={
+                                    EventPayload.RESPONSE: chat_response,
+                                },
+                                event_id=chat_response_event_id,
+                            )
+                            yield chat_response
                             last_response = x
 
                         callback_manager.on_event_end(
@@ -180,7 +201,21 @@ def llm_completion_callback() -> Callable:
                     async def wrapped_gen() -> CompletionResponseAsyncGen:
                         last_response = None
                         async for x in f_return_val:
-                            yield cast(CompletionResponse, x)
+                            chat_response = cast(CompletionResponse, x)
+                            chat_response_event_id = callback_manager.on_event_start(
+                                CBEventType.LLM_RESPONSE_DELTA,
+                                payload={
+                                    EventPayload.RESPONSE: chat_response,
+                                },
+                            )
+                            callback_manager.on_event_end(
+                                CBEventType.LLM_RESPONSE_DELTA,
+                                payload={
+                                    EventPayload.RESPONSE: chat_response,
+                                },
+                                event_id=chat_response_event_id,
+                            )
+                            yield chat_response
                             last_response = x
 
                         callback_manager.on_event_end(
@@ -222,7 +257,21 @@ def llm_completion_callback() -> Callable:
                     def wrapped_gen() -> CompletionResponseGen:
                         last_response = None
                         for x in f_return_val:
-                            yield cast(CompletionResponse, x)
+                            chat_response = cast(CompletionResponse, x)
+                            chat_response_event_id = callback_manager.on_event_start(
+                                CBEventType.LLM_RESPONSE_DELTA,
+                                payload={
+                                    EventPayload.RESPONSE: chat_response,
+                                },
+                            )
+                            callback_manager.on_event_end(
+                                CBEventType.LLM_RESPONSE_DELTA,
+                                payload={
+                                    EventPayload.RESPONSE: chat_response,
+                                },
+                                event_id=chat_response_event_id,
+                            )
+                            yield chat_response
                             last_response = x
 
                         callback_manager.on_event_end(
